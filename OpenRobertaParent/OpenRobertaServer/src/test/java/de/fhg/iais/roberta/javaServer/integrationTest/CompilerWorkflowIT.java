@@ -36,6 +36,7 @@ import de.fhg.iais.roberta.persistence.util.SessionFactoryWrapper;
 import de.fhg.iais.roberta.robotCommunication.RobotCommunicator;
 import de.fhg.iais.roberta.testutil.JSONUtilForServer;
 import de.fhg.iais.roberta.util.Key;
+import de.fhg.iais.roberta.util.RandomUrlPostfix;
 import de.fhg.iais.roberta.util.ServerProperties;
 import de.fhg.iais.roberta.util.Util1;
 import de.fhg.iais.roberta.util.dbc.DbcException;
@@ -153,6 +154,7 @@ public class CompilerWorkflowIT {
     }
 
     private boolean compileNepo(RobotInfo info, String resource) throws DbcException {
+        httpSessionState.setToken(RandomUrlPostfix.generate(12, 12, 3, 3, 3));
         String expectResult = resource.startsWith("error") ? "error" : "ok";
         String fullResource = this.resourceBase + info.dirName + "/" + resource;
         try {
@@ -225,6 +227,7 @@ public class CompilerWorkflowIT {
 
     private void setRobotTo(String robot) throws Exception, JSONException {
         this.response = this.restAdmin.command(httpSessionState, this.dbSession, JSONUtilForServer.mkD("{'cmd':'setRobot','robot':'" + robot + "'}"), null);
+        LOG.info("token is now: " + httpSessionState.getToken());
         JSONUtilForServer.assertEntityRc(this.response, "ok", Key.ROBOT_SET_SUCCESS);
     }
 

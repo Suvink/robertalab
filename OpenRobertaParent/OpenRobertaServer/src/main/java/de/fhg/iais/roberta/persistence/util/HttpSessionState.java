@@ -15,7 +15,7 @@ public class HttpSessionState implements Serializable {
 
     private int userId = HttpSessionState.NO_USER;
     private String robotName;
-    private String token = "1Q2W3E4R";
+    private String token = null;
     private String programName;
     private String program;
     private String configurationName;
